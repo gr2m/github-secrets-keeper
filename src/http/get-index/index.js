@@ -8,7 +8,7 @@ exports.handler = async function http(req) {
 
   if (session.user) {
     if (!session.user) {
-      return { status: 302, location: "/dashboard" };
+      return { status: 302, location: arc.http.helpers.url("/dashboard") };
     }
   }
 
@@ -17,7 +17,7 @@ exports.handler = async function http(req) {
     body: `
     <h1>GitHub Secrets Keeper</h1>
     <p>
-      <a href="/login">Login with GitHub</a>
+      <a href="${arc.http.helpers.url("/login")}">Login with GitHub</a>
     </p>
     `
   };

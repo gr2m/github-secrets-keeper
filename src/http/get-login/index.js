@@ -94,5 +94,5 @@ exports.handler = async function http(req) {
     await data.users.put(dbUser);
   }
 
-  return { cookie, status: 302, location: "/dashboard" };
+  return { cookie, status: 302, location: arc.http.helpers.url("/dashboard") };
 };

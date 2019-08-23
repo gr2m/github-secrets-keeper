@@ -1,6 +1,7 @@
 {
   "name": "ghsk-get-login",
   "dependencies": {
+    "@architect/functions": "^3.3.4",
     "@octokit/auth-oauth-app": "^2.0.1",
     "@octokit/oauth-login-url": "^2.1.2"
   }
