@@ -1,6 +1,8 @@
 @aws
-region us-west-2
+runtime nodejs10.x
+bucket ghsc
 profile default
+region us-west-2
 
 @app
 ghsk
@@ -10,23 +12,18 @@ get /
 get /login
 get /logout
 get /dashboard
+get /admin
 
 @tables
 users
   id *Number
-# login String
-# createdAt Number
-# lastLoginAt Number
 
 apps
   id *String
-# userId Number
-# secret String
-# createdAt Number
 
-@indexes
-users
-  login *String
-
-apps
-  userId Number
+# @indexes
+# users
+#   login String
+# 
+# apps
+#   userId Number
