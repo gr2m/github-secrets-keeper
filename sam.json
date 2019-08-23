@@ -1,0 +1,699 @@
+{
+  "AWSTemplateFormatVersion": "2010-09-09",
+  "Transform": "AWS::Serverless-2016-10-31",
+  "Description": "Exported by architect/package@1.0.39 on 2019-08-23T23:37:40.174Z",
+  "Resources": {
+    "Ghsk": {
+      "Type": "AWS::Serverless::Api",
+      "Properties": {
+        "StageName": "staging",
+        "DefinitionBody": {
+          "openapi": "3.0.1",
+          "info": {
+            "title": {
+              "Ref": "AWS::StackName"
+            }
+          },
+          "paths": {
+            "/": {
+              "get": {
+                "responses": {
+                  "200": {
+                    "description": "200 response"
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "uri": {
+                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetIndex.Arn}/invocations"
+                  },
+                  "responses": {
+                    "default": {
+                      "statusCode": "200",
+                      "contentHandling": "CONVERT_TO_TEXT"
+                    }
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                }
+              }
+            },
+            "/login": {
+              "get": {
+                "responses": {
+                  "200": {
+                    "description": "200 response"
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "uri": {
+                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetLogin.Arn}/invocations"
+                  },
+                  "responses": {
+                    "default": {
+                      "statusCode": "200",
+                      "contentHandling": "CONVERT_TO_TEXT"
+                    }
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                }
+              }
+            },
+            "/logout": {
+              "get": {
+                "responses": {
+                  "200": {
+                    "description": "200 response"
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "uri": {
+                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetLogout.Arn}/invocations"
+                  },
+                  "responses": {
+                    "default": {
+                      "statusCode": "200",
+                      "contentHandling": "CONVERT_TO_TEXT"
+                    }
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                }
+              }
+            },
+            "/dashboard": {
+              "get": {
+                "responses": {
+                  "200": {
+                    "description": "200 response"
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "uri": {
+                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetDashboard.Arn}/invocations"
+                  },
+                  "responses": {
+                    "default": {
+                      "statusCode": "200",
+                      "contentHandling": "CONVERT_TO_TEXT"
+                    }
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                }
+              }
+            },
+            "/admin": {
+              "get": {
+                "responses": {
+                  "200": {
+                    "description": "200 response"
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "uri": {
+                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAdmin.Arn}/invocations"
+                  },
+                  "responses": {
+                    "default": {
+                      "statusCode": "200",
+                      "contentHandling": "CONVERT_TO_TEXT"
+                    }
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                }
+              }
+            },
+            "/{proxy+}": {
+              "x-amazon-apigateway-any-method": {
+                "parameters": [
+                  {
+                    "name": "proxy",
+                    "in": "path",
+                    "required": true,
+                    "schema": {
+                      "type": "string"
+                    }
+                  }
+                ],
+                "x-amazon-apigateway-integration": {
+                  "uri": {
+                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetIndex.Arn}/invocations"
+                  },
+                  "responses": {
+                    "default": {
+                      "statusCode": "200"
+                    }
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "cacheNamespace": "xlr8r",
+                  "cacheKeyParameters": [
+                    "method.request.path.proxy"
+                  ],
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                }
+              }
+            }
+          }
+        },
+        "EndpointConfiguration": "REGIONAL",
+        "BinaryMediaTypes": [
+          "*~1*"
+        ],
+        "MinimumCompressionSize": 0
+      }
+    },
+    "GetIndex": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "CodeUri": "./src/http/get-index",
+        "Runtime": "nodejs10.x",
+        "MemorySize": 1152,
+        "Timeout": 5,
+        "Environment": {
+          "Variables": {
+            "ARC_ROLE": {
+              "Ref": "Role"
+            },
+            "ARC_CLOUDFORMATION": {
+              "Ref": "AWS::StackName"
+            },
+            "ARC_APP_NAME": "ghsk",
+            "NODE_ENV": "staging",
+            "SESSION_TABLE_NAME": "jwe",
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+          }
+        },
+        "Role": {
+          "Fn::Sub": [
+            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
+            {
+              "roleName": {
+                "Ref": "Role"
+              }
+            }
+          ]
+        },
+        "Events": {
+          "GetIndexEvent": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
+              "Method": "GET",
+              "RestApiId": {
+                "Ref": "Ghsk"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetLogin": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "CodeUri": "./src/http/get-login",
+        "Runtime": "nodejs10.x",
+        "MemorySize": 1152,
+        "Timeout": 5,
+        "Environment": {
+          "Variables": {
+            "ARC_ROLE": {
+              "Ref": "Role"
+            },
+            "ARC_CLOUDFORMATION": {
+              "Ref": "AWS::StackName"
+            },
+            "ARC_APP_NAME": "ghsk",
+            "NODE_ENV": "staging",
+            "SESSION_TABLE_NAME": "jwe",
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+          }
+        },
+        "Role": {
+          "Fn::Sub": [
+            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
+            {
+              "roleName": {
+                "Ref": "Role"
+              }
+            }
+          ]
+        },
+        "Events": {
+          "GetLoginEvent": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/login",
+              "Method": "GET",
+              "RestApiId": {
+                "Ref": "Ghsk"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetLogout": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "CodeUri": "./src/http/get-logout",
+        "Runtime": "nodejs10.x",
+        "MemorySize": 1152,
+        "Timeout": 5,
+        "Environment": {
+          "Variables": {
+            "ARC_ROLE": {
+              "Ref": "Role"
+            },
+            "ARC_CLOUDFORMATION": {
+              "Ref": "AWS::StackName"
+            },
+            "ARC_APP_NAME": "ghsk",
+            "NODE_ENV": "staging",
+            "SESSION_TABLE_NAME": "jwe",
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+          }
+        },
+        "Role": {
+          "Fn::Sub": [
+            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
+            {
+              "roleName": {
+                "Ref": "Role"
+              }
+            }
+          ]
+        },
+        "Events": {
+          "GetLogoutEvent": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/logout",
+              "Method": "GET",
+              "RestApiId": {
+                "Ref": "Ghsk"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetDashboard": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "CodeUri": "./src/http/get-dashboard",
+        "Runtime": "nodejs10.x",
+        "MemorySize": 1152,
+        "Timeout": 5,
+        "Environment": {
+          "Variables": {
+            "ARC_ROLE": {
+              "Ref": "Role"
+            },
+            "ARC_CLOUDFORMATION": {
+              "Ref": "AWS::StackName"
+            },
+            "ARC_APP_NAME": "ghsk",
+            "NODE_ENV": "staging",
+            "SESSION_TABLE_NAME": "jwe",
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+          }
+        },
+        "Role": {
+          "Fn::Sub": [
+            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
+            {
+              "roleName": {
+                "Ref": "Role"
+              }
+            }
+          ]
+        },
+        "Events": {
+          "GetDashboardEvent": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/dashboard",
+              "Method": "GET",
+              "RestApiId": {
+                "Ref": "Ghsk"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetAdmin": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "CodeUri": "./src/http/get-admin",
+        "Runtime": "nodejs10.x",
+        "MemorySize": 1152,
+        "Timeout": 5,
+        "Environment": {
+          "Variables": {
+            "ARC_ROLE": {
+              "Ref": "Role"
+            },
+            "ARC_CLOUDFORMATION": {
+              "Ref": "AWS::StackName"
+            },
+            "ARC_APP_NAME": "ghsk",
+            "NODE_ENV": "staging",
+            "SESSION_TABLE_NAME": "jwe",
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+          }
+        },
+        "Role": {
+          "Fn::Sub": [
+            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
+            {
+              "roleName": {
+                "Ref": "Role"
+              }
+            }
+          ]
+        },
+        "Events": {
+          "GetAdminEvent": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/admin",
+              "Method": "GET",
+              "RestApiId": {
+                "Ref": "Ghsk"
+              }
+            }
+          }
+        }
+      }
+    },
+    "InvokeProxyPermission": {
+      "Type": "AWS::Lambda::Permission",
+      "Properties": {
+        "FunctionName": {
+          "Ref": "GetIndex"
+        },
+        "Action": "lambda:InvokeFunction",
+        "Principal": "apigateway.amazonaws.com",
+        "SourceArn": {
+          "Fn::Sub": [
+            "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${restApiId}/*/*",
+            {
+              "restApiId": {
+                "Ref": "Ghsk"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "UsersTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "N"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
+    },
+    "AppsTable": {
+      "Type": "AWS::DynamoDB::Table",
+      "Properties": {
+        "KeySchema": [
+          {
+            "AttributeName": "id",
+            "KeyType": "HASH"
+          }
+        ],
+        "AttributeDefinitions": [
+          {
+            "AttributeName": "id",
+            "AttributeType": "S"
+          }
+        ],
+        "BillingMode": "PAY_PER_REQUEST"
+      }
+    },
+    "Role": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              },
+              "Action": "sts:AssumeRole"
+            }
+          ]
+        },
+        "Policies": [
+          {
+            "PolicyName": "ArcGlobalPolicy",
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "logs:CreateLogGroup",
+                    "logs:CreateLogStream",
+                    "logs:PutLogEvents",
+                    "logs:DescribeLogStreams"
+                  ],
+                  "Resource": "arn:aws:logs:*:*:*"
+                }
+              ]
+            }
+          },
+          {
+            "PolicyName": "ArcDynamoPolicy",
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Action": [
+                    "dynamodb:BatchGetItem",
+                    "dynamodb:BatchWriteItem",
+                    "dynamodb:PutItem",
+                    "dynamodb:DeleteItem",
+                    "dynamodb:GetItem",
+                    "dynamodb:Query",
+                    "dynamodb:Scan",
+                    "dynamodb:UpdateItem",
+                    "dynamodb:GetRecords",
+                    "dynamodb:GetShardIterator",
+                    "dynamodb:DescribeStream",
+                    "dynamodb:ListStreams"
+                  ],
+                  "Resource": [
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
+                        {
+                          "tablename": {
+                            "Ref": "UsersTable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
+                        {
+                          "tablename": {
+                            "Ref": "UsersTable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/stream/*",
+                        {
+                          "tablename": {
+                            "Ref": "UsersTable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}",
+                        {
+                          "tablename": {
+                            "Ref": "AppsTable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/*",
+                        {
+                          "tablename": {
+                            "Ref": "AppsTable"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "Fn::Sub": [
+                        "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/${tablename}/stream/*",
+                        {
+                          "tablename": {
+                            "Ref": "AppsTable"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "RoleReflectionPolicy": {
+      "Type": "AWS::IAM::Policy",
+      "DependsOn": "Role",
+      "Properties": {
+        "PolicyName": "ArcRoleReflectionPolicy",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "iam:GetRolePolicy",
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:iam::${AWS::AccountId}:role/${role}",
+                  {
+                    "role": {
+                      "Ref": "Role"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "Role"
+          }
+        ]
+      }
+    },
+    "UsersParam": {
+      "Type": "AWS::SSM::Parameter",
+      "Properties": {
+        "Type": "String",
+        "Name": {
+          "Fn::Sub": [
+            "/${AWS::StackName}/tables/${tablename}",
+            {
+              "tablename": "users"
+            }
+          ]
+        },
+        "Value": {
+          "Ref": "UsersTable"
+        }
+      }
+    },
+    "AppsParam": {
+      "Type": "AWS::SSM::Parameter",
+      "Properties": {
+        "Type": "String",
+        "Name": {
+          "Fn::Sub": [
+            "/${AWS::StackName}/tables/${tablename}",
+            {
+              "tablename": "apps"
+            }
+          ]
+        },
+        "Value": {
+          "Ref": "AppsTable"
+        }
+      }
+    },
+    "ParameterStorePolicy": {
+      "Type": "AWS::IAM::Policy",
+      "DependsOn": "Role",
+      "Properties": {
+        "PolicyName": "ArcParameterStorePolicy",
+        "PolicyDocument": {
+          "Statement": [
+            {
+              "Effect": "Allow",
+              "Action": "ssm:GetParametersByPath",
+              "Resource": {
+                "Fn::Sub": [
+                  "arn:aws:ssm:${AWS::Region}:${AWS::AccountId}:parameter/${AWS::StackName}",
+                  {}
+                ]
+              }
+            }
+          ]
+        },
+        "Roles": [
+          {
+            "Ref": "Role"
+          }
+        ]
+      }
+    }
+  },
+  "Outputs": {
+    "API": {
+      "Description": "API Gateway",
+      "Value": {
+        "Fn::Sub": [
+          "https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/staging",
+          {
+            "restApiId": {
+              "Ref": "Ghsk"
+            }
+          }
+        ]
+      }
+    },
+    "restApiId": {
+      "Description": "HTTP restApiId",
+      "Value": {
+        "Ref": "Ghsk"
+      }
+    }
+  }
+}
