@@ -9,6 +9,7 @@ ghsk
 get /
 get /login
 get /logout
+get /dashboard
 
 @tables
 users

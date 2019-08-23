@@ -94,5 +94,5 @@ exports.handler = async function http(req) {
     await data.users.put(dbUser);
   }
 
-  return { cookie, status: 302, location: "/" };
+  return { cookie, status: 302, location: "/dashboard" };
 };
