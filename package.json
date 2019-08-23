@@ -1,0 +1,23 @@
+{
+  "name": "github-secrets-keeper",
+  "version": "1.0.0",
+  "description": "A server to keep OAuth client secrets for frontend-only OAuth integrations",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gr2m/github-secrets-keeper.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gr2m/github-secrets-keeper/issues"
+  },
+  "homepage": "https://github.com/gr2m/github-secrets-keeper#readme",
+  "dependencies": {
+    "@architect/architect": "^6.0.2"
+  }
+}
