@@ -13,5 +13,8 @@ exports.handler = async function http(req) {
   // save the session state to DynamoDB
   let cookie = await arc.http.session.write(session);
 
-  return { cookie, status: 302, location: arc.http.helpers.url("/") };
+  return {
+    status: 302,
+    headers: { "set-cookie": cookie, location: arc.http.helpers.url("/") }
+  };
 };

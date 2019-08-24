@@ -8,12 +8,12 @@ exports.handler = async function http(req) {
   const session = await arc.http.session.read(req);
 
   if (!session.user) {
-    return { status: 302, location: url("/") };
+    return { status: 302, headers: { location: url("/") } };
   }
 
   if (session.user.login !== "gr2m") {
     console.log(`Invalid /admin access by ${session.user.login}`);
-    return { status: 302, location: url("/dashboard") };
+    return { status: 302, headers: { location: url("/dashboard") } };
   }
 
   const data = await arc.tables();

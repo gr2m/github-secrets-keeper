@@ -11,7 +11,8 @@ const { request } = require("@octokit/request");
  * 2. When the /login?code=... query parameter is present, exchange it for a token and persist the session
  */
 exports.handler = async function http(req) {
-  console.log(req.httpMethod, req.path);
+  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+  console.log(req);
 
   const { code, state } = req.queryStringParameters || {};
 
@@ -30,7 +31,7 @@ exports.handler = async function http(req) {
       Object.assign(session, { state })
     );
 
-    return { cookie, status: 302, location: url };
+    return { status: 302, headers: { "set-cookie": cookie, location: url } };
   }
 
   // reads the session from DynamoDB
@@ -94,5 +95,11 @@ exports.handler = async function http(req) {
     await data.users.put(dbUser);
   }
 
-  return { cookie, status: 302, location: arc.http.helpers.url("/dashboard") };
+  return {
+    status: 302,
+    headers: {
+      "set-cookie": cookie,
+      location: arc.http.helpers.url("/dashboard")
+    }
+  };
 };

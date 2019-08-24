@@ -8,7 +8,7 @@ exports.handler = async function http(req) {
   const session = await arc.http.session.read(req);
 
   if (!session.user) {
-    return { status: 302, location: url("/") };
+    return { status: 302, headers: { location: url("/") } };
   }
 
   const data = await arc.tables();

@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Exported by architect/package@1.0.39 on 2019-08-23T23:37:40.174Z
+Description: Exported by architect/package@1.0.39 on 2019-08-24T03:47:40.145Z
 Resources:
   Ghsk:
     Type: AWS::Serverless::Api
@@ -121,7 +121,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/1ad3ceb715c47e2a25417af41b03f2ed
+      CodeUri: s3://ghsc/aaa141923518aa42cdcb2dd8f3212aae
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -135,6 +135,8 @@ Resources:
           NODE_ENV: staging
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -152,7 +154,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/4d2807969ff22584a731b663a727ab8e
+      CodeUri: s3://ghsc/93d0b314377ae33d2b283e108b995799
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -166,6 +168,8 @@ Resources:
           NODE_ENV: staging
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -183,7 +187,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/34955fe7e17a2889ee919710dd660425
+      CodeUri: s3://ghsc/72462714f167acf8a7b9b3ea78a6fc53
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -197,6 +201,8 @@ Resources:
           NODE_ENV: staging
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -214,7 +220,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/fb8376827f07ef080a7ca6c9f19e79da
+      CodeUri: s3://ghsc/3acfc5ee5c232a6fd35675aae5920d86
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -228,6 +234,8 @@ Resources:
           NODE_ENV: staging
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -245,7 +253,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/8f1ca852e856117b886e0a12d3ec88ca
+      CodeUri: s3://ghsc/ec890a0aea6019038cc570dce856265a
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -259,6 +267,8 @@ Resources:
           NODE_ENV: staging
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}

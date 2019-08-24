@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "Exported by architect/package@1.0.39 on 2019-08-23T23:37:40.174Z",
+  "Description": "Exported by architect/package@1.0.39 on 2019-08-24T03:47:40.145Z",
   "Resources": {
     "Ghsk": {
       "Type": "AWS::Serverless::Api",
@@ -195,7 +195,9 @@
             "ARC_APP_NAME": "ghsk",
             "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
-            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -241,7 +243,9 @@
             "ARC_APP_NAME": "ghsk",
             "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
-            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -287,7 +291,9 @@
             "ARC_APP_NAME": "ghsk",
             "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
-            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -333,7 +339,9 @@
             "ARC_APP_NAME": "ghsk",
             "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
-            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -379,7 +387,9 @@
             "ARC_APP_NAME": "ghsk",
             "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
-            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python"
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
