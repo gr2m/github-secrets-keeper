@@ -11,7 +11,6 @@ const { request } = require("@octokit/request");
  * 2. When the /login?code=... query parameter is present, exchange it for a token and persist the session
  */
 exports.handler = async function http(req) {
-  console.log("process.env.NODE_ENV", process.env.NODE_ENV);
   console.log(req);
 
   const { code, state } = req.queryStringParameters || {};
@@ -31,7 +30,7 @@ exports.handler = async function http(req) {
       Object.assign(session, { state })
     );
 
-    return { status: 302, headers: { "set-cookie": cookie, location: url } };
+    return { statusCode 302, headers: { "set-cookie": cookie, location: url } };
   }
 
   // reads the session from DynamoDB
@@ -40,7 +39,7 @@ exports.handler = async function http(req) {
   // verify OAuth state
   if (session.state !== state) {
     return {
-      status: 401,
+      statusCode 401,
       headers: { "content-type": "text/html; charset=utf8" },
       body: `
         <h1>OAuth redirect could not be verified.</h1> 
@@ -66,7 +65,7 @@ exports.handler = async function http(req) {
     console.log(error);
 
     return {
-      status: error.status,
+      statusCode error.status,
       headers: { "content-type": "text/html; charset=utf8" },
       body: `
         <h1>${error.message}</h1> 
@@ -96,7 +95,7 @@ exports.handler = async function http(req) {
   }
 
   return {
-    status: 302,
+    statusCode 302,
     headers: {
       "set-cookie": cookie,
       location: arc.http.helpers.url("/dashboard")
