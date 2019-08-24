@@ -82,20 +82,21 @@ exports.handler = async function http(req) {
 
   // create user object in DynomoDB unless it anlready exists
   const data = await arc.tables();
-  const dbUser = await data.users.get({ id: user.id });
+  let dbUser = await data.users.get({ id: user.id });
 
   if (!dbUser) {
     console.log(`[db] user created: ${user.login} (${user.id})`);
-    await data.users.put({
+    dbUser = {
       ...user,
       createdAt: Date.now(),
       lastLoginAt: Date.now()
-    });
+    };
   } else {
     console.log(`[db] user login: ${user.login} (${user.id})`);
     dbUser.lastLoginAt = Date.now();
-    await data.users.put(dbUser);
   }
+
+  await data.users.put(dbUser);
 
   return {
     statusCode: 302,

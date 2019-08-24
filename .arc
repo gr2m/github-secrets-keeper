@@ -7,6 +7,9 @@ region us-west-2
 @app
 ghsk
 
+@static
+folder public
+
 @http
 get /
 get /login

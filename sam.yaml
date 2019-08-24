@@ -1,11 +1,11 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Exported by architect/package@1.0.39 on 2019-08-24T04:21:54.018Z
+Description: Exported by architect/package@1.0.39 on 2019-08-24T05:50:33.770Z
 Resources:
   Ghsk:
     Type: AWS::Serverless::Api
     Properties:
-      StageName: staging
+      StageName: production
       DefinitionBody:
         openapi: 3.0.1
         info:
@@ -113,6 +113,31 @@ Resources:
                 - method.request.path.proxy
                 contentHandling: CONVERT_TO_TEXT
                 type: aws_proxy
+          /_static/{proxy+}:
+            x-amazon-apigateway-any-method:
+              parameters:
+              - name: proxy
+                in: path
+                required: true
+                schema:
+                  type: string
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub:
+                  - http://${bukkit}.s3.${AWS::Region}.amazonaws.com/{proxy}
+                  - bukkit:
+                      Ref: StaticBucket
+                responses:
+                  default:
+                    statusCode: '200'
+                requestParameters:
+                  integration.request.path.proxy: method.request.path.proxy
+                passthroughBehavior: when_no_match
+                httpMethod: ANY
+                cacheNamespace: xlr8r2
+                cacheKeyParameters:
+                - method.request.path.proxy
+                type: http_proxy
       EndpointConfiguration: REGIONAL
       BinaryMediaTypes:
       - '*~1*'
@@ -121,7 +146,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/c4f6ef15a25fac79f3fe2d0652f15c02
+      CodeUri: s3://ghsc/bcb08b2de317d748d8a1f6ff8a7c7d38
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -132,11 +157,11 @@ Resources:
           ARC_CLOUDFORMATION:
             Ref: AWS::StackName
           ARC_APP_NAME: ghsk
-          NODE_ENV: staging
+          NODE_ENV: production
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -154,7 +179,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/f3910b6a720af8ffd43290cc6fb00432
+      CodeUri: s3://ghsc/4cc96f9659b5a62f1029c70a9578208e
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -165,11 +190,11 @@ Resources:
           ARC_CLOUDFORMATION:
             Ref: AWS::StackName
           ARC_APP_NAME: ghsk
-          NODE_ENV: staging
+          NODE_ENV: production
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -187,7 +212,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/58285b2af8cfcf45c75cef9d0b6e45ad
+      CodeUri: s3://ghsc/7f9e80983d606142327fff6569378489
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -198,11 +223,11 @@ Resources:
           ARC_CLOUDFORMATION:
             Ref: AWS::StackName
           ARC_APP_NAME: ghsk
-          NODE_ENV: staging
+          NODE_ENV: production
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -220,7 +245,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/3b6f58eeaf33b7dd9ac5bca6c6d3fdc9
+      CodeUri: s3://ghsc/5b49407e0168b539169f33dba484e12c
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -231,11 +256,11 @@ Resources:
           ARC_CLOUDFORMATION:
             Ref: AWS::StackName
           ARC_APP_NAME: ghsk
-          NODE_ENV: staging
+          NODE_ENV: production
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -253,7 +278,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/beaf10df6f867556785d618a3428d25e
+      CodeUri: s3://ghsc/94fd86b4ca57927006a727ec4349406c
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -264,11 +289,11 @@ Resources:
           ARC_CLOUDFORMATION:
             Ref: AWS::StackName
           ARC_APP_NAME: ghsk
-          NODE_ENV: staging
+          NODE_ENV: production
           SESSION_TABLE_NAME: jwe
           PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
       Role:
         Fn::Sub:
         - arn:aws:iam::${AWS::AccountId}:role/${roleName}
@@ -294,6 +319,13 @@ Resources:
         - arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${restApiId}/*/*
         - restApiId:
             Ref: Ghsk
+  StaticBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      AccessControl: PublicRead
+      WebsiteConfiguration:
+        IndexDocument: index.html
+        ErrorDocument: 404.html
   UsersTable:
     Type: AWS::DynamoDB::Table
     Properties:
@@ -335,6 +367,19 @@ Resources:
             - logs:PutLogEvents
             - logs:DescribeLogStreams
             Resource: arn:aws:logs:*:*:*
+      - PolicyName: ArcStaticBucketPolicy
+        PolicyDocument:
+          Statement:
+          - Effect: Allow
+            Action:
+            - s3:GetObject
+            - s3:PutObject
+            - s3:DeleteObject
+            Resource:
+              Fn::Sub:
+              - arn:aws:s3:::${bukkit}
+              - bukkit:
+                  Ref: StaticBucket
       - PolicyName: ArcDynamoPolicy
         PolicyDocument:
           Statement:
@@ -413,6 +458,25 @@ Resources:
         - tablename: apps
       Value:
         Ref: AppsTable
+  StaticBucketParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name:
+        Fn::Sub:
+        - /${AWS::StackName}/static/${key}
+        - key: bucket
+      Value:
+        Ref: StaticBucket
+  StaticFingerprintParam:
+    Type: AWS::SSM::Parameter
+    Properties:
+      Type: String
+      Name:
+        Fn::Sub:
+        - /${AWS::StackName}/static/${key}
+        - key: fingerprint
+      Value: 'false'
   ParameterStorePolicy:
     Type: AWS::IAM::Policy
     DependsOn: Role
@@ -433,10 +497,17 @@ Outputs:
     Description: API Gateway
     Value:
       Fn::Sub:
-      - https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/staging
+      - https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/production
       - restApiId:
           Ref: Ghsk
   restApiId:
     Description: HTTP restApiId
     Value:
       Ref: Ghsk
+  BucketURL:
+    Description: Bucket URL
+    Value:
+      Fn::Sub:
+      - http://${bukkit}.s3-website-${AWS::Region}.amazonaws.com
+      - bukkit:
+          Ref: StaticBucket
