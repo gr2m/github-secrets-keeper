@@ -15,7 +15,7 @@ exports.handler = async function http(req) {
   if (session.user) {
     if (!session.user) {
       return {
-        statusCode 302,
+        statusCode: 302,
         headers: { location: arc.http.helpers.url("/dashboard") }
       };
     }

@@ -1,7 +1,7 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "Exported by architect/package@1.0.39 on 2019-08-24T03:47:40.145Z",
+  "Description": "Exported by architect/package@1.0.39 on 2019-08-24T04:21:54.018Z",
   "Resources": {
     "Ghsk": {
       "Type": "AWS::Serverless::Api",

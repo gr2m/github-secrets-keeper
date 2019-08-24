@@ -14,7 +14,7 @@ exports.handler = async function http(req) {
   let cookie = await arc.http.session.write(session);
 
   return {
-    statusCode 302,
+    statusCode: 302,
     headers: { "set-cookie": cookie, location: arc.http.helpers.url("/") }
   };
 };

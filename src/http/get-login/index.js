@@ -30,7 +30,10 @@ exports.handler = async function http(req) {
       Object.assign(session, { state })
     );
 
-    return { statusCode 302, headers: { "set-cookie": cookie, location: url } };
+    return {
+      statusCode: 302,
+      headers: { "set-cookie": cookie, location: url }
+    };
   }
 
   // reads the session from DynamoDB
@@ -39,7 +42,7 @@ exports.handler = async function http(req) {
   // verify OAuth state
   if (session.state !== state) {
     return {
-      statusCode 401,
+      statusCode: 401,
       headers: { "content-type": "text/html; charset=utf8" },
       body: `
         <h1>OAuth redirect could not be verified.</h1> 
@@ -65,7 +68,7 @@ exports.handler = async function http(req) {
     console.log(error);
 
     return {
-      statusCode error.status,
+      statusCode: error.status,
       headers: { "content-type": "text/html; charset=utf8" },
       body: `
         <h1>${error.message}</h1> 
@@ -95,7 +98,7 @@ exports.handler = async function http(req) {
   }
 
   return {
-    statusCode 302,
+    statusCode: 302,
     headers: {
       "set-cookie": cookie,
       location: arc.http.helpers.url("/dashboard")
