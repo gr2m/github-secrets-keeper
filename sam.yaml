@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Exported by architect/package@1.0.39 on 2019-08-24T18:36:14.268Z
+Description: Exported by architect/package@1.0.39 on 2019-08-25T06:12:09.288Z
 Resources:
   Ghsk:
     Type: AWS::Serverless::Api
@@ -12,62 +12,14 @@ Resources:
           title:
             Ref: AWS::StackName
         paths:
-          /login:
+          /api/{clientId}/{code}:
             get:
               responses:
                 '200':
                   description: 200 response
               x-amazon-apigateway-integration:
                 uri:
-                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetLogin.Arn}/invocations
-                responses:
-                  default:
-                    statusCode: '200'
-                    contentHandling: CONVERT_TO_TEXT
-                passthroughBehavior: when_no_match
-                httpMethod: POST
-                contentHandling: CONVERT_TO_TEXT
-                type: aws_proxy
-          /logout:
-            get:
-              responses:
-                '200':
-                  description: 200 response
-              x-amazon-apigateway-integration:
-                uri:
-                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetLogout.Arn}/invocations
-                responses:
-                  default:
-                    statusCode: '200'
-                    contentHandling: CONVERT_TO_TEXT
-                passthroughBehavior: when_no_match
-                httpMethod: POST
-                contentHandling: CONVERT_TO_TEXT
-                type: aws_proxy
-          /dashboard:
-            get:
-              responses:
-                '200':
-                  description: 200 response
-              x-amazon-apigateway-integration:
-                uri:
-                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetDashboard.Arn}/invocations
-                responses:
-                  default:
-                    statusCode: '200'
-                    contentHandling: CONVERT_TO_TEXT
-                passthroughBehavior: when_no_match
-                httpMethod: POST
-                contentHandling: CONVERT_TO_TEXT
-                type: aws_proxy
-          /admin:
-            get:
-              responses:
-                '200':
-                  description: 200 response
-              x-amazon-apigateway-integration:
-                uri:
-                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetAdmin.Arn}/invocations
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetApiClientIdCode.Arn}/invocations
                 responses:
                   default:
                     statusCode: '200'
@@ -142,11 +94,11 @@ Resources:
       BinaryMediaTypes:
       - '*~1*'
       MinimumCompressionSize: 0
-  GetLogin:
+  GetApiClientIdCode:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/7661078e20adb40247fa2e07294e9470
+      CodeUri: s3://ghsc/93da13a8e4b4abc79e2f8f9b0ebc4011
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -170,115 +122,10 @@ Resources:
         - roleName:
             Ref: Role
       Events:
-        GetLoginEvent:
+        GetApiClientIdCodeEvent:
           Type: Api
           Properties:
-            Path: /login
-            Method: GET
-            RestApiId:
-              Ref: Ghsk
-  GetLogout:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.handler
-      CodeUri: s3://ghsc/7f9e80983d606142327fff6569378489
-      Runtime: nodejs10.x
-      MemorySize: 1152
-      Timeout: 5
-      Environment:
-        Variables:
-          ARC_ROLE:
-            Ref: Role
-          ARC_CLOUDFORMATION:
-            Ref: AWS::StackName
-          ARC_APP_NAME: ghsk
-          NODE_ENV: staging
-          SESSION_TABLE_NAME: jwe
-          PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          ARC_STATIC_BUCKET:
-            Ref: StaticBucket
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
-      Role:
-        Fn::Sub:
-        - arn:aws:iam::${AWS::AccountId}:role/${roleName}
-        - roleName:
-            Ref: Role
-      Events:
-        GetLogoutEvent:
-          Type: Api
-          Properties:
-            Path: /logout
-            Method: GET
-            RestApiId:
-              Ref: Ghsk
-  GetDashboard:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.handler
-      CodeUri: s3://ghsc/5b49407e0168b539169f33dba484e12c
-      Runtime: nodejs10.x
-      MemorySize: 1152
-      Timeout: 5
-      Environment:
-        Variables:
-          ARC_ROLE:
-            Ref: Role
-          ARC_CLOUDFORMATION:
-            Ref: AWS::StackName
-          ARC_APP_NAME: ghsk
-          NODE_ENV: staging
-          SESSION_TABLE_NAME: jwe
-          PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          ARC_STATIC_BUCKET:
-            Ref: StaticBucket
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
-      Role:
-        Fn::Sub:
-        - arn:aws:iam::${AWS::AccountId}:role/${roleName}
-        - roleName:
-            Ref: Role
-      Events:
-        GetDashboardEvent:
-          Type: Api
-          Properties:
-            Path: /dashboard
-            Method: GET
-            RestApiId:
-              Ref: Ghsk
-  GetAdmin:
-    Type: AWS::Serverless::Function
-    Properties:
-      Handler: index.handler
-      CodeUri: s3://ghsc/94fd86b4ca57927006a727ec4349406c
-      Runtime: nodejs10.x
-      MemorySize: 1152
-      Timeout: 5
-      Environment:
-        Variables:
-          ARC_ROLE:
-            Ref: Role
-          ARC_CLOUDFORMATION:
-            Ref: AWS::StackName
-          ARC_APP_NAME: ghsk
-          NODE_ENV: staging
-          SESSION_TABLE_NAME: jwe
-          PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
-          ARC_STATIC_BUCKET:
-            Ref: StaticBucket
-          CLIENT_ID: 06515a89ea053688c263
-          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
-      Role:
-        Fn::Sub:
-        - arn:aws:iam::${AWS::AccountId}:role/${roleName}
-        - roleName:
-            Ref: Role
-      Events:
-        GetAdminEvent:
-          Type: Api
-          Properties:
-            Path: /admin
+            Path: /api/{clientId}/{code}
             Method: GET
             RestApiId:
               Ref: Ghsk
@@ -286,7 +133,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/f65f32db463ec38dd7c1f21a09465644
+      CodeUri: s3://ghsc/6051cce3a84299399749b9a114e0e60c
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -350,10 +197,10 @@ Resources:
     Type: AWS::DynamoDB::Table
     Properties:
       KeySchema:
-      - AttributeName: id
+      - AttributeName: clientId
         KeyType: HASH
       AttributeDefinitions:
-      - AttributeName: id
+      - AttributeName: clientId
         AttributeType: S
       BillingMode: PAY_PER_REQUEST
   Role:

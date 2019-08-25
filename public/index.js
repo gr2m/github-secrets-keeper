@@ -6,14 +6,17 @@ import {
 import { del, get, set } from "https://unpkg.com/idb-keyval?module";
 import { oauthLoginUrl } from "https://cdn.pika.dev/@octokit/oauth-login-url";
 
-const CLIENT_ID = "2c171c24de9e23c6a30c";
+const CLIENT_ID = location.href.startsWith(
+  "https://mzix1huilh.execute-api.us-west-2.amazonaws.com/staging"
+)
+  ? "06515a89ea053688c263"
+  : location.href.startsWith(
+      "https://mzix1huilh.execute-api.us-west-2.amazonaws.com/production"
+    )
+  ? "81910a1a9a45df0f8fc6"
+  : "2c171c24de9e23c6a30c";
 
 class App extends Component {
-  // state = {
-  //   error: null,
-  //   session: null
-  // }
-
   componentDidMount() {
     this.init();
   }
@@ -26,6 +29,10 @@ class App extends Component {
     const retrievedOAuthState = searchParams.get("state");
 
     if (code) {
+      this.setState({
+        loading: true
+      });
+
       // remove ?code=... and &state=... from URL
       const path =
         location.pathname +
@@ -38,6 +45,7 @@ class App extends Component {
       await del("oauth-state");
       if (expectedOAuthState !== retrievedOAuthState) {
         return this.setState({
+          loading: false,
           error: `OAuth state does not match`
         });
       }
@@ -47,6 +55,7 @@ class App extends Component {
 
         if (response.status === 404) {
           return this.setState({
+            loading: false,
             error: `OAuth app with client id ${CLIENT_ID} could not be found.`
           });
         }
@@ -54,11 +63,13 @@ class App extends Component {
         const session = await response.json();
         await set("session", session);
         return this.setState({
+          loading: false,
           session,
           error: null
         });
       } catch (error) {
         return this.setState({
+          loading: false,
           error: `Something went wrong: ${error}`
         });
       }
@@ -88,6 +99,13 @@ class App extends Component {
   }
 
   render() {
+    if (this.state.loading) {
+      return html`
+        <div class="loading">
+          <h1>Loading ...</h1>
+        </div>
+      `;
+    }
     if (!this.state.session) {
       return html`
         <div class="login">
