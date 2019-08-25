@@ -1,0 +1,7 @@
+{
+  "name": "ghsk-get-api-000client-000code",
+  "dependencies": {
+    "@architect/functions": "^3.3.4",
+    "@octokit/auth-oauth-app": "^2.0.1"
+  }
+}

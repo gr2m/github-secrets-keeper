@@ -1,12 +1,12 @@
 {
   "AWSTemplateFormatVersion": "2010-09-09",
   "Transform": "AWS::Serverless-2016-10-31",
-  "Description": "Exported by architect/package@1.0.39 on 2019-08-24T05:50:33.770Z",
+  "Description": "Exported by architect/package@1.0.39 on 2019-08-24T18:36:14.268Z",
   "Resources": {
     "Ghsk": {
       "Type": "AWS::Serverless::Api",
       "Properties": {
-        "StageName": "production",
+        "StageName": "staging",
         "DefinitionBody": {
           "openapi": "3.0.1",
           "info": {
@@ -15,30 +15,6 @@
             }
           },
           "paths": {
-            "/": {
-              "get": {
-                "responses": {
-                  "200": {
-                    "description": "200 response"
-                  }
-                },
-                "x-amazon-apigateway-integration": {
-                  "uri": {
-                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetIndex.Arn}/invocations"
-                  },
-                  "responses": {
-                    "default": {
-                      "statusCode": "200",
-                      "contentHandling": "CONVERT_TO_TEXT"
-                    }
-                  },
-                  "passthroughBehavior": "when_no_match",
-                  "httpMethod": "POST",
-                  "contentHandling": "CONVERT_TO_TEXT",
-                  "type": "aws_proxy"
-                }
-              }
-            },
             "/login": {
               "get": {
                 "responses": {
@@ -135,6 +111,30 @@
                 }
               }
             },
+            "/": {
+              "get": {
+                "responses": {
+                  "200": {
+                    "description": "200 response"
+                  }
+                },
+                "x-amazon-apigateway-integration": {
+                  "uri": {
+                    "Fn::Sub": "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetIndex.Arn}/invocations"
+                  },
+                  "responses": {
+                    "default": {
+                      "statusCode": "200",
+                      "contentHandling": "CONVERT_TO_TEXT"
+                    }
+                  },
+                  "passthroughBehavior": "when_no_match",
+                  "httpMethod": "POST",
+                  "contentHandling": "CONVERT_TO_TEXT",
+                  "type": "aws_proxy"
+                }
+              }
+            },
             "/{proxy+}": {
               "x-amazon-apigateway-any-method": {
                 "parameters": [
@@ -217,55 +217,6 @@
         "MinimumCompressionSize": 0
       }
     },
-    "GetIndex": {
-      "Type": "AWS::Serverless::Function",
-      "Properties": {
-        "Handler": "index.handler",
-        "CodeUri": "./src/http/get-index",
-        "Runtime": "nodejs10.x",
-        "MemorySize": 1152,
-        "Timeout": 5,
-        "Environment": {
-          "Variables": {
-            "ARC_ROLE": {
-              "Ref": "Role"
-            },
-            "ARC_CLOUDFORMATION": {
-              "Ref": "AWS::StackName"
-            },
-            "ARC_APP_NAME": "ghsk",
-            "NODE_ENV": "production",
-            "SESSION_TABLE_NAME": "jwe",
-            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
-            "ARC_STATIC_BUCKET": {
-              "Ref": "StaticBucket"
-            }
-          }
-        },
-        "Role": {
-          "Fn::Sub": [
-            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
-            {
-              "roleName": {
-                "Ref": "Role"
-              }
-            }
-          ]
-        },
-        "Events": {
-          "GetIndexEvent": {
-            "Type": "Api",
-            "Properties": {
-              "Path": "/",
-              "Method": "GET",
-              "RestApiId": {
-                "Ref": "Ghsk"
-              }
-            }
-          }
-        }
-      }
-    },
     "GetLogin": {
       "Type": "AWS::Serverless::Function",
       "Properties": {
@@ -283,12 +234,14 @@
               "Ref": "AWS::StackName"
             },
             "ARC_APP_NAME": "ghsk",
-            "NODE_ENV": "production",
+            "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
             "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
             "ARC_STATIC_BUCKET": {
               "Ref": "StaticBucket"
-            }
+            },
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -332,12 +285,14 @@
               "Ref": "AWS::StackName"
             },
             "ARC_APP_NAME": "ghsk",
-            "NODE_ENV": "production",
+            "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
             "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
             "ARC_STATIC_BUCKET": {
               "Ref": "StaticBucket"
-            }
+            },
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -381,12 +336,14 @@
               "Ref": "AWS::StackName"
             },
             "ARC_APP_NAME": "ghsk",
-            "NODE_ENV": "production",
+            "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
             "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
             "ARC_STATIC_BUCKET": {
               "Ref": "StaticBucket"
-            }
+            },
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -430,12 +387,14 @@
               "Ref": "AWS::StackName"
             },
             "ARC_APP_NAME": "ghsk",
-            "NODE_ENV": "production",
+            "NODE_ENV": "staging",
             "SESSION_TABLE_NAME": "jwe",
             "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
             "ARC_STATIC_BUCKET": {
               "Ref": "StaticBucket"
-            }
+            },
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
           }
         },
         "Role": {
@@ -453,6 +412,57 @@
             "Type": "Api",
             "Properties": {
               "Path": "/admin",
+              "Method": "GET",
+              "RestApiId": {
+                "Ref": "Ghsk"
+              }
+            }
+          }
+        }
+      }
+    },
+    "GetIndex": {
+      "Type": "AWS::Serverless::Function",
+      "Properties": {
+        "Handler": "index.handler",
+        "CodeUri": "/Users/gregor/.npm-packages/lib/node_modules/@architect/cli/node_modules/@architect/package/vendor/arc-proxy-3.2.2/index.js",
+        "Runtime": "nodejs10.x",
+        "MemorySize": 1152,
+        "Timeout": 5,
+        "Environment": {
+          "Variables": {
+            "ARC_ROLE": {
+              "Ref": "Role"
+            },
+            "ARC_CLOUDFORMATION": {
+              "Ref": "AWS::StackName"
+            },
+            "ARC_APP_NAME": "ghsk",
+            "NODE_ENV": "staging",
+            "SESSION_TABLE_NAME": "jwe",
+            "PYTHONPATH": "/var/task/vendor:/var/runtime:/opt/python",
+            "ARC_STATIC_BUCKET": {
+              "Ref": "StaticBucket"
+            },
+            "CLIENT_ID": "06515a89ea053688c263",
+            "CLIENT_SECRET": "758744f36d00b8f76e0bf921dbab50d2d84909b2"
+          }
+        },
+        "Role": {
+          "Fn::Sub": [
+            "arn:aws:iam::${AWS::AccountId}:role/${roleName}",
+            {
+              "roleName": {
+                "Ref": "Role"
+              }
+            }
+          ]
+        },
+        "Events": {
+          "GetIndexEvent": {
+            "Type": "Api",
+            "Properties": {
+              "Path": "/",
               "Method": "GET",
               "RestApiId": {
                 "Ref": "Ghsk"
@@ -803,7 +813,7 @@
       "Description": "API Gateway",
       "Value": {
         "Fn::Sub": [
-          "https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/production",
+          "https://${restApiId}.execute-api.${AWS::Region}.amazonaws.com/staging",
           {
             "restApiId": {
               "Ref": "Ghsk"

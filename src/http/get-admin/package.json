@@ -1,6 +1,0 @@
-{
-  "name": "ghsk-get-dashboard",
-  "dependencies": {
-    "@architect/functions": "^3.3.4"
-  }
-}

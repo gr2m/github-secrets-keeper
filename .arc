@@ -9,20 +9,18 @@ ghsk
 
 @static
 folder public
+# If no "get /" route is defined in the @http section,
+# public/index.html is returned for all paths
 
 @http
-get /
-get /login
-get /logout
-get /dashboard
-get /admin
+get /api/:clientId/:code
 
 @tables
 users
   id *Number
 
 apps
-  id *String
+  clientId *String
 
 # @indexes
 # users
