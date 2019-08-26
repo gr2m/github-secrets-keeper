@@ -1,0 +1,7 @@
+{
+  "name": "ghsk-post-api-user-client_secrets",
+  "dependencies": {
+    "@architect/functions": "^3.3.4",
+    "@octokit/request": "^5.0.2"
+  }
+}
