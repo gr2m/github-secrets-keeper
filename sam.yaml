@@ -1,6 +1,6 @@
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: Exported by architect/package@1.0.39 on 2019-08-25T06:12:09.288Z
+Description: Exported by architect/package@1.0.39 on 2019-08-26T06:09:52.683Z
 Resources:
   Ghsk:
     Type: AWS::Serverless::Api
@@ -12,6 +12,53 @@ Resources:
           title:
             Ref: AWS::StackName
         paths:
+          /api/user/client-secrets:
+            get:
+              responses:
+                '200':
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${GetApiUserClientSecrets.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                    contentHandling: CONVERT_TO_TEXT
+                passthroughBehavior: when_no_match
+                httpMethod: POST
+                contentHandling: CONVERT_TO_TEXT
+                type: aws_proxy
+            post:
+              responses:
+                '200':
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${PostApiUserClientSecrets.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                    contentHandling: CONVERT_TO_TEXT
+                passthroughBehavior: when_no_match
+                httpMethod: POST
+                contentHandling: CONVERT_TO_TEXT
+                type: aws_proxy
+          /api/user/client-secrets/{clientId}:
+            delete:
+              responses:
+                '200':
+                  description: 200 response
+              x-amazon-apigateway-integration:
+                uri:
+                  Fn::Sub: arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${DeleteApiUserClientSecretsClientId.Arn}/invocations
+                responses:
+                  default:
+                    statusCode: '200'
+                    contentHandling: CONVERT_TO_TEXT
+                passthroughBehavior: when_no_match
+                httpMethod: POST
+                contentHandling: CONVERT_TO_TEXT
+                type: aws_proxy
           /api/{clientId}/{code}:
             get:
               responses:
@@ -94,11 +141,116 @@ Resources:
       BinaryMediaTypes:
       - '*~1*'
       MinimumCompressionSize: 0
+  GetApiUserClientSecrets:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      CodeUri: s3://ghsc/60c24bc871fd3233963f61e05ac4778f
+      Runtime: nodejs10.x
+      MemorySize: 1152
+      Timeout: 5
+      Environment:
+        Variables:
+          ARC_ROLE:
+            Ref: Role
+          ARC_CLOUDFORMATION:
+            Ref: AWS::StackName
+          ARC_APP_NAME: ghsk
+          NODE_ENV: staging
+          SESSION_TABLE_NAME: jwe
+          PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+      Role:
+        Fn::Sub:
+        - arn:aws:iam::${AWS::AccountId}:role/${roleName}
+        - roleName:
+            Ref: Role
+      Events:
+        GetApiUserClientSecretsEvent:
+          Type: Api
+          Properties:
+            Path: /api/user/client-secrets
+            Method: GET
+            RestApiId:
+              Ref: Ghsk
+  PostApiUserClientSecrets:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      CodeUri: s3://ghsc/82b4aaaa4248d86828032a46b7de8bb1
+      Runtime: nodejs10.x
+      MemorySize: 1152
+      Timeout: 5
+      Environment:
+        Variables:
+          ARC_ROLE:
+            Ref: Role
+          ARC_CLOUDFORMATION:
+            Ref: AWS::StackName
+          ARC_APP_NAME: ghsk
+          NODE_ENV: staging
+          SESSION_TABLE_NAME: jwe
+          PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+      Role:
+        Fn::Sub:
+        - arn:aws:iam::${AWS::AccountId}:role/${roleName}
+        - roleName:
+            Ref: Role
+      Events:
+        PostApiUserClientSecretsEvent:
+          Type: Api
+          Properties:
+            Path: /api/user/client-secrets
+            Method: POST
+            RestApiId:
+              Ref: Ghsk
+  DeleteApiUserClientSecretsClientId:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: index.handler
+      CodeUri: s3://ghsc/9eb3ba8771ae92c0884a7e7323958e62
+      Runtime: nodejs10.x
+      MemorySize: 1152
+      Timeout: 5
+      Environment:
+        Variables:
+          ARC_ROLE:
+            Ref: Role
+          ARC_CLOUDFORMATION:
+            Ref: AWS::StackName
+          ARC_APP_NAME: ghsk
+          NODE_ENV: staging
+          SESSION_TABLE_NAME: jwe
+          PYTHONPATH: /var/task/vendor:/var/runtime:/opt/python
+          ARC_STATIC_BUCKET:
+            Ref: StaticBucket
+          CLIENT_ID: 06515a89ea053688c263
+          CLIENT_SECRET: 758744f36d00b8f76e0bf921dbab50d2d84909b2
+      Role:
+        Fn::Sub:
+        - arn:aws:iam::${AWS::AccountId}:role/${roleName}
+        - roleName:
+            Ref: Role
+      Events:
+        DeleteApiUserClientSecretsClientIdEvent:
+          Type: Api
+          Properties:
+            Path: /api/user/client-secrets/{clientId}
+            Method: DELETE
+            RestApiId:
+              Ref: Ghsk
   GetApiClientIdCode:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/93da13a8e4b4abc79e2f8f9b0ebc4011
+      CodeUri: s3://ghsc/4dd7c2be3020c1a9c06d2092976dd2f5
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5
@@ -133,7 +285,7 @@ Resources:
     Type: AWS::Serverless::Function
     Properties:
       Handler: index.handler
-      CodeUri: s3://ghsc/6051cce3a84299399749b9a114e0e60c
+      CodeUri: s3://ghsc/aa38e7e4a3461e1882c0f6c357c45827
       Runtime: nodejs10.x
       MemorySize: 1152
       Timeout: 5

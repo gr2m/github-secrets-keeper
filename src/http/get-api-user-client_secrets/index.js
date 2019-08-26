@@ -3,9 +3,8 @@ const { request } = require("@octokit/request");
 
 // learn more about http functions here: https://arc.codes/primitives/http
 exports.handler = async function http(req) {
-  const {
-    headers: { authorization }
-  } = req;
+  console.log(req);
+  const authorization = req.headers.authorization || req.headers.Authorization;
 
   if (!authorization) {
     return {

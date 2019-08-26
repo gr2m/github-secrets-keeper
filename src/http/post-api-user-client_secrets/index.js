@@ -2,10 +2,7 @@ const arc = require("@architect/functions");
 const { request } = require("@octokit/request");
 
 exports.handler = async function http(req) {
-  const {
-    headers: { authorization },
-    body
-  } = req;
+  const authorization = req.headers.authorization || req.headers.Authorization;
 
   if (!authorization) {
     return {
@@ -31,7 +28,7 @@ exports.handler = async function http(req) {
     };
   }
 
-  const newApp = JSON.parse(Buffer.from(body, "base64"));
+  const newApp = JSON.parse(Buffer.from(req.body, "base64"));
   newApp.userId = userId;
   newApp.createdAt = Date.now();
 
