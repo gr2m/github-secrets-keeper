@@ -24,3 +24,11 @@ users
 
 apps
   clientId *String
+
+# register CORS macro, src/macros/cors.js
+@macros
+cors
+
+# custom config for CORS macro
+@cors
+get /api/:clientId/:code
