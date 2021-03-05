@@ -6,17 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/gr2m/github-secrets-keeper.git"
-  },
+  "repository": "github:gr2m/github-secrets-keeper",
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/gr2m/github-secrets-keeper/issues"
-  },
-  "homepage": "https://github.com/gr2m/github-secrets-keeper#readme",
   "dependencies": {
     "@architect/architect": "^6.0.5",
     "@architect/utils": "^1.3.2"
